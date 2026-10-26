@@ -48,8 +48,8 @@ const YOUTUBE_MEDIA = {
   school1: [{ id:"RlB6fXD5CFQ", ratio:"9 / 16", label:"School Content vlog" }],
   w2w: [{ id:"Qc660Zu_hZI", ratio:"16 / 9", label:"Women2Women — Boston" }]
 };
-const TIKTOK_MEDIA = {
-  sport1: [{ id:"7646470778187222304", ratio:"9 / 16", label:"Sport Content 3 — TikTok", url:"https://www.tiktok.com/@leya.en.vadrouille/video/7646470778187222304" }]
+const INSTAGRAM_MEDIA = {
+  sport1: [{ id:"DZDJh-vs02H", ratio:"9 / 16", label:"Sport Content 3 — Instagram Reel", url:"https://www.instagram.com/reel/DZDJh-vs02H/" }]
 };
 
 
@@ -758,8 +758,8 @@ async function renderContentCarousel(box, metaItems, sectionKey){
     if(!entries.some(entry=>entry.youtubeId===yt.id)) entries.push({youtubeId:yt.id,ratio:yt.ratio,label:yt.label,meta:{format:"Original",customRatio:""}});
   }
   // TikTok-hosted items must be embedded as TikTok players, never loaded as local .mov files.
-  for(const tt of (TIKTOK_MEDIA[sectionKey]||[])){
-    if(!entries.some(entry=>entry.tiktokId===tt.id)) entries.push({tiktokId:tt.id,ratio:tt.ratio,label:tt.label,url:tt.url,meta:{format:"Original",customRatio:""}});
+  for(const reel of (INSTAGRAM_MEDIA[sectionKey]||[])){
+    if(!entries.some(entry=>entry.instagramId===reel.id)) entries.push({instagramId:reel.id,ratio:reel.ratio,label:reel.label,url:reel.url,meta:{format:"Original",customRatio:""}});
   }
   box.innerHTML="";
   box.classList.add("content-carousel-host","media-managed-host");
@@ -780,16 +780,16 @@ async function renderContentCarousel(box, metaItems, sectionKey){
     const frame=document.createElement("div");frame.className="content-carousel-slide";frame.dataset.index=String(i);
     let src=entry.src;if(entry.file&&!entry.file.legacy)src=URL.createObjectURL(entry.file.blob||entry.file);
     const applyRatio=(el,w,h)=>{if(!w||!h)return;const ratio=w/h;const stageH=Math.max(220,Math.min(460,window.innerWidth<600?300:420));let height=stageH,width=height*ratio;const maxWidth=Math.max(180,Math.min(window.innerWidth*.78,900));if(width>maxWidth){width=maxWidth;height=width/ratio;}frame.style.width=`${Math.round(width)}px`;frame.style.height=`${Math.round(height)}px`;};
-    if(entry.tiktokId){
+    if(entry.instagramId){
       const ratio=entry.ratio||"9 / 16"; const parts=ratio.split("/").map(v=>Number(v.trim())); const rw=parts[0]||9,rh=parts[1]||16;
       const stageH=Math.max(220,Math.min(460,window.innerWidth<600?300:420)); let height=stageH,width=height*rw/rh;
       const maxWidth=Math.max(180,Math.min(window.innerWidth*.78,900)); if(width>maxWidth){width=maxWidth;height=width/(rw/rh);}
-      frame.style.width=`${Math.round(width)}px`; frame.style.height=`${Math.round(height)}px`; frame.classList.add("content-carousel-youtube","content-carousel-tiktok");
-      const iframe=document.createElement("iframe"); iframe.className="youtube-embed-frame";
-      iframe.src=`https://www.tiktok.com/embed/v2/${entry.tiktokId}`; iframe.title=entry.label||"TikTok video"; iframe.loading="lazy";
+      frame.style.width=`${Math.round(width)}px`; frame.style.height=`${Math.round(height)}px`; frame.classList.add("content-carousel-youtube","content-carousel-instagram");
+      const iframe=document.createElement("iframe"); iframe.className="instagram-embed-frame";
+      iframe.src=`https://www.instagram.com/reel/${entry.instagramId}/embed/`; iframe.title=entry.label||"Instagram Reel"; iframe.loading="lazy";
       iframe.allow="encrypted-media; fullscreen; picture-in-picture"; iframe.allowFullscreen=true; iframe.referrerPolicy="strict-origin-when-cross-origin";
       frame.appendChild(iframe);
-      const fallback=document.createElement("a"); fallback.className="tiktok-fallback-link"; fallback.href=entry.url||`https://www.tiktok.com/`; fallback.target="_blank"; fallback.rel="noopener noreferrer"; fallback.textContent="Open video on TikTok ↗"; frame.appendChild(fallback);
+      const fallback=document.createElement("a"); fallback.className="instagram-fallback-link"; fallback.href=entry.url||"https://www.instagram.com/"; fallback.target="_blank"; fallback.rel="noopener noreferrer"; fallback.textContent="Open video on Instagram ↗"; frame.appendChild(fallback);
     }
     else if(entry.youtubeId){
       const ratio=entry.ratio||"16 / 9"; const parts=ratio.split("/").map(v=>Number(v.trim())); const rw=parts[0]||16,rh=parts[1]||9;

@@ -1,20 +1,16 @@
-CHERRY LINE — correctif consolidé (26 octobre 2026)
+CHERRY LINE — targeted correction package (26 October 2026)
 
-Contenu : app.js, index.html, styles.css.
+Contains:
+- index.html
+- styles.css
+- app.js
 
-Installation :
-1. Décompresser le ZIP.
-2. Dans le dépôt GitHub existant, remplacer uniquement app.js, index.html et styles.css par ceux-ci.
-3. Garder le dossier Media/ et ses fichiers tels quels.
-4. Commit/push, attendre GitHub Pages, puis faire un rechargement forcé du navigateur.
+Apply to the existing GitHub repository by replacing these three files only. Keep the existing Media/ folder and its contents unchanged. Do not rename Media/ to media/.
 
-Corrections incluses dans le code :
-- Tous les chemins statiques utilisent le dossier exact Media/ (M majuscule).
-- Suppression de la grille décorative de la page Hero.
-- Women2Women intégré depuis YouTube en 16:9.
-- Interview Average Rob gardée en 9:16.
-- La Conception : bloc descriptif et légende centrés.
-- Sport Content 3 utilise l'embed TikTok et garde un lien de secours vers la vidéo originale.
-- Les carrousels Sport/School conservent leurs médias statiques et leurs lecteurs hébergés.
+Corrections included in this patch:
+- La Conception description and caption centered in their assigned area.
+- Average Rob portrait frame aligned directly below its title, with no vertical offset.
+- Sport Content 3 uses the supplied Instagram Reel https://www.instagram.com/reel/DZDJh-vs02H/ as a 9:16 embedded player, with a direct Instagram fallback link.
+- Existing Media/ (capital M) paths are retained.
 
-Vérifications : syntaxe JavaScript et intégrité du ZIP. La lecture réelle des vidéos hébergées/locales n'a pas pu être testée dans le navigateur de production. Si un fichier .mov est encodé avec un codec non pris en charge par le navigateur, il devra être réexporté en MP4 H.264/AAC ; changer le code ne peut pas convertir son encodage.
+Validation performed: JavaScript syntax check and ZIP integrity check. The Instagram embed and final visual layout still depend on the live browser, GitHub Pages deployment, and Instagram's embed permissions; they cannot be claimed as browser-tested here.
